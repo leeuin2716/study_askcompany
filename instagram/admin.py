@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import Post
+from .models import Post,Comment
 
 
 
@@ -20,3 +20,8 @@ class PostAdmin(admin.ModelAdmin):
         if post.photo:
             return mark_safe(f'<img src = "{post.photo.url}" style="width:75px; height:75px;"  />')
         return None
+    
+    
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    pass
