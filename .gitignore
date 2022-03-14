@@ -88,8 +88,13 @@ docs/_build/
 .pybuilder/
 target/
 
-# Jupyter Notebook
+
+### JupyterNotebooks ###
+
+
 .ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
 
 # IPython
 profile_default/
