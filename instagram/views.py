@@ -19,8 +19,11 @@ from .models import Post
 
 
 
-post_list = ListView.as_view(model=Post)
-# post_list = ListView.as_view(model=Post, paginate_by=10)
+# post_list = ListView.as_view(model=Post)
+
+
+
+post_list = ListView.as_view(model=Post, paginate_by=10)
 
 # class PostListView(ListView):
 #     model = Post
