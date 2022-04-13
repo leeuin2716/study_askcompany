@@ -2,11 +2,18 @@ from django.db import models
 from django.conf import settings
 from util.views import uuid_name_upload_to
 from django.urls import reverse
+from django.core.validators import MinLengthValidator
 
+
+
+
+min_length_validator = MinLengthValidator(3)
 
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    message = models.TextField()
+    message = models.TextField(
+        validators=[MinLengthValidator(10)]
+    )
     photo = models.ImageField(blank =True, upload_to = uuid_name_upload_to)
     tag_set = models.ManyToManyField('Tag', blank=True)
     is_public = models.BooleanField(default=False,verbose_name='공개여부')
