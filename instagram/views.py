@@ -5,15 +5,18 @@ from .models import Post
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from .forms import PostForm
+from django.db import models
+from django.contrib import messages
 
-
-
+@login_required
 def post_new(request):
-    
+    # models.GenericIPAddressField   ip주소 저장가능
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            post = form.save()
+            post = form.save(commit=False)
+            post.author = request.user  # 현재 로그인 유저 Instance
+            post.save()
             return redirect(post)
     else:
         form = PostForm()
@@ -23,8 +26,29 @@ def post_new(request):
         'form':form,
     })
 
-
-
+@login_required
+def post_edit(request, pk):
+    
+    post = get_object_or_404(Post,pk=pk)
+    
+    #작성자 체크 tip 추후 장식자 로 만들어서 활용가능 
+    if post.author != request.user:
+        messages.error(request,'작성자만 수정 할 수 있습니다. ')
+        return redirect(post)
+    
+      
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            post = form.save()
+            return redirect(post)
+    else:
+        form = PostForm(instance=post)
+    
+    
+    return render(request, 'instagram/post_form.html',{
+        'form':form,
+    })
 
 
 
