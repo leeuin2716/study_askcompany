@@ -17,6 +17,7 @@ def post_new(request):
             post = form.save(commit=False)
             post.author = request.user  # 현재 로그인 유저 Instance
             post.save()
+            messages.success(request,'포스팅을 저장했습니다.')
             return redirect(post)
     else:
         form = PostForm()
@@ -24,11 +25,11 @@ def post_new(request):
     
     return render(request, 'instagram/post_form.html',{
         'form':form,
+        'post':None,
     })
 
 @login_required
 def post_edit(request, pk):
-    
     post = get_object_or_404(Post,pk=pk)
     
     #작성자 체크 tip 추후 장식자 로 만들어서 활용가능 
@@ -41,6 +42,8 @@ def post_edit(request, pk):
         form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             post = form.save()
+            messages.success(request,'포스팅을 수정했습니다.')
+            
             return redirect(post)
     else:
         form = PostForm(instance=post)
@@ -48,8 +51,19 @@ def post_edit(request, pk):
     
     return render(request, 'instagram/post_form.html',{
         'form':form,
+        'post':post,
     })
 
+@login_required
+def post_delete(request, pk):
+    post = get_object_or_404(Post,pk=pk)
+    if request.method == 'POST':
+        post.delete()
+        messages.success(request,'포스팅을 삭제했습니다.')
+        return redirect('instagram:post_list')
+    return render(request, 'instagram/post_confirm_delete.html',{
+        'post':post,
+    })
 
 
 
@@ -62,6 +76,10 @@ def post_edit(request, pk):
 #     q = request.GET.get('q','')
 #     if q:
 #         qs = qs.filter(message__icontains=q)
+    
+    
+#     messages.info(request,'messages 테스트')
+
         
 #     # instagram/templates/instagram/post_list.html
 #     return render(request, 'instagram/post_list.html',{
