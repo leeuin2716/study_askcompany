@@ -39,6 +39,13 @@ C:\Crawler-1>C:/Users/ASC/.virtualenvs/Crawler-1-SB4-eyB_/Scripts/python.exe c:/
 }
 
 
+pycharm power_shell 권한 에러시
+
+1. ExecutionPolicy   #현재 권한확인 -->> Unrestricted 아닐경우
+2. Set-ExecutionPolicy -Scope CurrentUser
+3. Unrestricted
+4. ExecutionPolicy
+
 data base---------
 
 ex) mssql
