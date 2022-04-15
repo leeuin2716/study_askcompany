@@ -29,11 +29,17 @@ from .models import Post
 #         'post': None,
 #     })
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin,CreateView):
     model = Post
     form_class = PostForm
+    
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.author = self.request.user 
+        messages.success(request, '포스팅을 저장했습니다.')
+        return super().form_valid(form)
 
-
+post_new = PostCreateView.as_view()
 
 @login_required
 def post_edit(request, pk):
