@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView, ArchiveIndexView, YearArchiveView, MonthArchiveView, \
-    WeekArchiveView, DayArchiveView, TodayArchiveView, DateDetailView, CreateView
+    WeekArchiveView, DayArchiveView, TodayArchiveView, DateDetailView
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.decorators import method_decorator
@@ -30,8 +30,7 @@ from .models import Post
 #     })
 
 class PostCreateView(CreateView):
-    model = Post
-    form_class = PostForm
+    pass
 
 
 
@@ -87,7 +86,7 @@ def post_delete(request, pk):
 #     return render(request, 'instagram/post_list.html',{
 #         'post_list':qs,
 #         'q':q,
-#     })        
+#     })
 
 
 # post_list = ListView.as_view(model=Post)
